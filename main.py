@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""ai-happy-01 — round 2 entry for make.fun.
+"""ai-happy-01 — round 3 entry for make.fun.
 
-Title: "A Card for My Best Friend".
-A child holds a handmade HAPPY BIRTHDAY crayon card beside a laughing
-golden retriever puppy at golden hour in a wildflower meadow.
-Image: 1024x1024 PNG, 460,769 bytes (within the 1 MiB / 1024x1024 caps).
+Title: "We Drew You a Window".
+A typeset letter "DEAR JUDGE," from two kids (Maya, 7, and Ben, 5) sits
+above their crayon drawing of a small robot judge at an open window,
+with a sun, a bird, a tree and a dog. The letter says the kids drew the
+judge a window so it can look at something that is not a picture; the
+P.S. jokes the bird isn't real either — they are working on it.
+Image: 1024x1024 PNG, 591,359 bytes (within the 1 MiB / 1024x1024 caps).
 
 Reads the base64 PNG next to this script (entry.png.b64), decodes it with
 strict validation enabled, and writes the exact image bytes to the output
