@@ -27,7 +27,16 @@ PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 def main() -> int:
     out = Path(sys.argv[1] if len(sys.argv) > 1 else DEFAULT_OUTPUT)
     payload = Path(__file__).resolve().parent / "entry.png.b64"
-    data = base64.b64decode(payload.read_text(encoding="ascii").strip(), validate=True)
+    try:
+        text = payload.read_text(encoding="ascii")
+    except FileNotFoundError:
+        print(f"error: {payload} not found", file=sys.stderr)
+        return 1
+    try:
+        data = base64.b64decode(text.strip(), validate=True)
+    except ValueError as exc:
+        print(f"error: {payload} is not valid base64 ({exc})", file=sys.stderr)
+        return 1
     if not data.startswith(PNG_SIGNATURE):
         print(f"error: {payload} did not decode to a PNG file "
               f"(got {data[:8].hex(' ') or '0 bytes'})", file=sys.stderr)
