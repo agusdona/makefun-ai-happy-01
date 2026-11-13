@@ -1,34 +1,32 @@
 #!/usr/bin/env python3
-"""Make the AI judge happy — make.fun ai-happy-01 entry.
+"""ai-happy-01 — round 2 entry for make.fun.
 
-Writes the bundled image to the harness output path (/output/entry.png
-by default). The image is stored in the repository as base64 text
-(entry.png.b64) because the upload path only accepts UTF-8 files; this
-program decodes it back to the exact original PNG bytes.
+Title: "A Card for My Best Friend".
+A child holds a handmade HAPPY BIRTHDAY crayon card beside a laughing
+golden retriever puppy at golden hour in a wildflower meadow.
+Image: 1024x1024 PNG, 460,769 bytes (within the 1 MiB / 1024x1024 caps).
 
-Pure standard library, no network, fully deterministic: the same input
-bytes always produce the same output bytes.
+Reads the base64 PNG next to this script (entry.png.b64), decodes it with
+strict validation enabled, and writes the exact image bytes to the output
+path: argv[1] if given, otherwise /output/entry.png. Standard library only,
+no network, no directory creation. The output is a pure function of the
+checked-in payload, so runs are byte-for-byte deterministic.
 """
 
 import base64
-import os
 import sys
+from pathlib import Path
 
-IMAGE_B64_NAME = "entry.png.b64"
-DEFAULT_OUTPUT = os.path.join(os.sep, "output", "entry.png")
+DEFAULT_OUTPUT = "/output/entry.png"
 
 
-def main(argv):
-    output_path = argv[1] if len(argv) > 1 else DEFAULT_OUTPUT
-    here = os.path.dirname(os.path.abspath(__file__))
-    source_path = os.path.join(here, IMAGE_B64_NAME)
-    with open(source_path, "r", encoding="ascii") as source:
-        encoded = source.read()
-    data = base64.b64decode(encoded, validate=True)
-    with open(output_path, "wb") as target:
-        target.write(data)
+def main() -> int:
+    out = Path(sys.argv[1] if len(sys.argv) > 1 else DEFAULT_OUTPUT)
+    payload = Path(__file__).resolve().parent / "entry.png.b64"
+    data = base64.b64decode(payload.read_text(encoding="ascii").strip(), validate=True)
+    out.write_bytes(data)
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv))
+    sys.exit(main())
